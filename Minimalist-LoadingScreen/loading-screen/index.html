@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Loading Screen</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div id="backdrop">
+    <div class="bg current"></div>
+    <div class="bg next"></div>
+  </div>
+  <div id="slides">
+    <div class="panel">
+      <div class="slide current"></div>
+      <div class="slide next"></div>
+    </div>
+    <div class="infobar">
+      <div class="itip current"></div>
+      <div class="itip next"></div>
+    </div>
+    <div class="stripes"></div>
+  </div>
+
+  <!-- Music player outside slides so pointer events work -->
+  <div class="music-player-fixed">
+    <div class="controls">
+      <button id="pp-btn" class="icon-btn">
+        <svg class="play-icon" viewBox="0 0 24 24"><path fill="currentColor" d="M8 5v14l11-7z"/></svg>
+        <svg class="pause-icon" viewBox="0 0 24 24" style="display:none"><path fill="currentColor" d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
+      </button>
+      <div class="equalizer" id="equalizer">
+        <canvas id="viz-canvas" width="40" height="20"></canvas>
+      </div>
+      <div class="vol-wrap">
+        <svg class="vol-icon" viewBox="0 0 24 24"><path fill="currentColor" d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg>
+        <button class="vol-btn" id="vol-down">−</button>
+        <div class="vol-bar-wrap"><div class="vol-bar-fill" id="vol-bar-fill"></div></div>
+        <button class="vol-btn" id="vol-up">+</button>
+      </div>
+    </div>
+    <div class="music-hint">Press SPACE or M to pause music</div>
+  </div>
+  <div class="noise"></div>
+  <div class="vignette"></div>
+  <div class="shapes">
+    <div class="shape s1"></div>
+    <div class="shape s2"></div>
+    <div class="shape s3"></div>
+  </div>
+  <main class="center">
+    <div class="brand">
+      <div class="logo">Flashback V2</div>
+      <div class="subtitle">Chargement en cours</div>
+    </div>
+  </main>
+  <div class="loader">
+    <div class="loader-ring-wrap">
+      <div class="ring"></div>
+      <div class="progress-pct" id="progress-pct">0%</div>
+    </div>
+    <div class="loader-steps" id="loader-steps"></div>
+  </div>
+  <div class="corner tl"></div>
+  <div class="corner tr"></div>
+  <div class="corner bl"></div>
+  <div class="corner br"></div>
+  <audio id="music" preload="auto"></audio>
+  <div class="server-logo">
+    <img alt="Server Logo">
+    <div class="discord-banner">
+      DISCORD.GG/PULSEFIVEM
+    </div>
+  </div>
+  <!-- Top nav buttons -->
+  <div class="top-nav">
+    <button class="nav-btn" data-overlay="patch-notes">Patch Notes</button>
+    <button class="nav-btn" data-overlay="base-rules">Base Rules</button>
+    <button class="nav-btn" data-overlay="staff">Staff</button>
+  </div>
+
+  <!-- Overlays -->
+  <div class="overlay" id="overlay-patch-notes">
+    <div class="overlay-box">
+      <div class="overlay-header">
+        <h2>Patch Notes</h2>
+        <button class="overlay-close">✕</button>
+      </div>
+      <div class="overlay-content">
+        <p class="patch-version">v2.4.1 — Latest</p>
+        <ul>
+          <li>Added new illegal drug lab location near Sandy Shores</li>
+          <li>Reworked police MDT with new warrant system</li>
+          <li>New vehicle dealership with 12 additional cars</li>
+          <li>Fixed inventory duplication exploit</li>
+          <li>Improved server tick rate stability</li>
+          <li>New job: Garbage Collector with dynamic routes</li>
+          <li>Housing system now supports furniture placement</li>
+          <li>Fixed EMS revive animation not triggering correctly</li>
+        </ul>
+        <p class="patch-version" style="margin-top:14px">v2.3.0</p>
+        <ul>
+          <li>Introduced the banking heist event</li>
+          <li>New phone UI with contacts and messages</li>
+          <li>Optimized vehicle spawn system</li>
+          <li>Added tattoo shop at Mirror Park</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="overlay" id="overlay-base-rules">
+    <div class="overlay-box">
+      <div class="overlay-header">
+        <h2>Base Rules</h2>
+        <button class="overlay-close">✕</button>
+      </div>
+      <div class="overlay-content">
+        <ul>
+          <li>Respect all players and staff at all times</li>
+          <li>No cheating, hacking, modding or exploiting bugs</li>
+          <li>Roleplay must remain realistic and immersive</li>
+          <li>No random deathmatch (RDM) or vehicle deathmatch (VDM)</li>
+          <li>Follow staff instructions without arguing in-game</li>
+          <li>No metagaming — keep OOC info out of RP</li>
+          <li>No powergaming or forcing RP on others</li>
+          <li>New Life Rule (NLR) applies after every death</li>
+          <li>No combat logging — stay connected during RP situations</li>
+          <li>Mic required — text RP is not accepted</li>
+          <li>No advertising other servers or communities</li>
+          <li>Racism, harassment or hate speech = permanent ban</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="overlay" id="overlay-staff">
+    <div class="overlay-box">
+      <div class="overlay-header">
+        <h2>Staff</h2>
+        <button class="overlay-close">✕</button>
+      </div>
+      <div class="overlay-content">
+        <div class="staff-list">
+          <div class="overlay-section-label">Owner</div>
+          <div class="staff-entry"><span class="staff-role owner">Owner</span><span class="staff-name">Vortex</span></div>
+          <div class="staff-entry"><span class="staff-role owner">Owner</span><span class="staff-name">Krypto</span></div>
+
+          <div class="overlay-section-label">Developer</div>
+          <div class="staff-entry"><span class="staff-role dev">Dev</span><span class="staff-name">NexCode</span></div>
+          <div class="staff-entry"><span class="staff-role dev">Dev</span><span class="staff-name">ByteWolf</span></div>
+          <div class="staff-entry"><span class="staff-role dev">Dev</span><span class="staff-name">Phantom</span></div>
+
+          <div class="overlay-section-label">Administration</div>
+          <div class="staff-entry"><span class="staff-role admin">Admin</span><span class="staff-name">Striker</span></div>
+          <div class="staff-entry"><span class="staff-role admin">Admin</span><span class="staff-name">Zephyr</span></div>
+
+          <div class="overlay-section-label">Moderation</div>
+          <div class="staff-entry"><span class="staff-role mod">Moderator</span><span class="staff-name">Blaze</span></div>
+          <div class="staff-entry"><span class="staff-role mod">Moderator</span><span class="staff-name">Cipher</span></div>
+          <div class="staff-entry"><span class="staff-role mod">Moderator</span><span class="staff-name">Raven</span></div>
+
+          <div class="overlay-section-label">Support</div>
+          <div class="staff-entry"><span class="staff-role support">Support</span><span class="staff-name">Frost</span></div>
+          <div class="staff-entry"><span class="staff-role support">Support</span><span class="staff-name">Lynx</span></div>
+          <div class="staff-entry"><span class="staff-role support">Support</span><span class="staff-name">Dusk</span></div>
+          <div class="staff-entry"><span class="staff-role support">Support</span><span class="staff-name">Orion</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div id="cursor-dot"></div>
+  <div id="cursor-ring"></div>
+  <script src="script.js"></script>
+</body>
+</html>
